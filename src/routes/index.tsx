@@ -339,6 +339,41 @@ function Index() {
         </div>
       </section>
 
+      {/* TESTIMONIALS — White */}
+      <section className="py-32 bg-white">
+        <div className="mx-auto max-w-7xl px-6 lg:px-10">
+          <div className="max-w-2xl mb-16">
+            <p className="text-xs uppercase tracking-[0.3em] text-teal mb-6">Testimonials</p>
+            <h2 className="font-display text-4xl md:text-5xl text-charcoal leading-tight">
+              What partners <span className="italic text-teal">say</span>.
+            </h2>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { quote: "[Add a testimonial from a client, partner or collaborator here. Replace this text with a real quote.]", name: "[Name]", role: "[Role, Organisation]" },
+              { quote: "[Add a second testimonial here. This could be from a conference organiser, board member, or investor.]", name: "[Name]", role: "[Role, Organisation]" },
+              { quote: "[Add a third testimonial here. Consider including one from the disability, education or youth sector.]", name: "[Name]", role: "[Role, Organisation]" },
+            ].map((t, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                className="bg-background rounded-2xl p-10 border border-border"
+              >
+                <p className="text-emerald text-4xl font-display leading-none mb-6">&ldquo;</p>
+                <p className="text-charcoal/80 leading-relaxed mb-8">{t.quote}</p>
+                <div>
+                  <p className="font-display text-charcoal">{t.name}</p>
+                  <p className="text-sm text-charcoal/60">{t.role}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* QUOTE — #216869 at 5% */}
       <section style={{ backgroundColor: "rgba(33, 104, 105, 0.05)" }} className="py-40">
         <div className="mx-auto max-w-6xl px-6 lg:px-10 text-center">
