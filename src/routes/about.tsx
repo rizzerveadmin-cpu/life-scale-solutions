@@ -44,7 +44,7 @@ function AboutPage() {
           <div className="lg:col-span-7">
             <p className="text-xs uppercase tracking-[0.3em] text-teal mb-6">About</p>
             <h1 className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-[1.02]">
-              A life of <span className="italic text-teal">building</span>, in seven chapters.
+              A life of <span className="italic text-teal">building</span>, in six chapters.
             </h1>
           </div>
           <div className="lg:col-span-5">
