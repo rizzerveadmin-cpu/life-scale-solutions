@@ -30,7 +30,7 @@ const chapters = [
   { n: "02", title: "Migration To Australia", body: "Arriving with $500 to her name. A new country, no safety net, and the conviction that systems can be rebuilt for those they leave behind.", image: maryAustralia.url },
   { n: "03", title: "PhD Journey", body: "Single motherhood, full-time work, and doctoral research — pursued in parallel. The discipline that still defines how she leads today.", image: maryPhd.url },
   { n: "04", title: "Building Businesses", body: "From practitioner to founder. Designing and scaling services across disability, education, and youth development with commercial rigour.", image: maryStanding },
-  { n: "05", title: "Impact At Scale", body: "4,000+ families. Multi-million dollar service growth. National recognition as a builder of sustainable social outcomes.", image: maryTv },
+  { n: "05", title: "Impact At Scale", body: "4,000+ families. Multi-million dollar service growth. National recognition as a builder of sustainable social outcomes.", image: maryTv, objectPosition: "left center" as const },
   { n: "06", title: "What's Next", body: "Acquisitions, advisory, investment and platform-level reform — building the next generation of impact businesses.", image: maryLiving },
 ];
 
@@ -68,7 +68,12 @@ function AboutPage() {
             >
               <div className="lg:col-span-5">
                 <div className="aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-mist">
-                  <img src={c.image} alt={c.title} className="h-full w-full object-cover" />
+                  <img
+                    src={c.image}
+                    alt={c.title}
+                    className="h-full w-full object-cover"
+                    style={c.objectPosition ? { objectPosition: c.objectPosition } : undefined}
+                  />
                 </div>
               </div>
               <div className="lg:col-span-7">
