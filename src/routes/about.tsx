@@ -68,7 +68,12 @@ function AboutPage() {
             >
               <div className="lg:col-span-5">
                 <div className="aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-mist">
-                  <img src={c.image} alt={c.title} className="h-full w-full object-cover" />
+                  <img
+                    src={c.image}
+                    alt={c.title}
+                    className="h-full w-full object-cover"
+                    style={c.objectPosition ? { objectPosition: c.objectPosition } : undefined}
+                  />
                 </div>
               </div>
               <div className="lg:col-span-7">
