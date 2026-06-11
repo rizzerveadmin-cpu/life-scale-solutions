@@ -20,9 +20,40 @@ export const Route = createFileRoute("/contact")({
 
 const intents = ["Keynote", "Advisory", "Partnership", "Acquisition", "Media", "Other"];
 
+const WEBHOOK_URL = "https://hook.eu1.make.com/nwz6p2n66ckaxciw9thurg8crhdoy2do";
+
 function ContactPage() {
   const [intent, setIntent] = useState("Keynote");
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const payload = {
+      "Interested in": intent,
+      Name: String(formData.get("name") ?? ""),
+      Organisation: String(formData.get("org") ?? ""),
+      Email: String(formData.get("email") ?? ""),
+      Phone: String(formData.get("phone") ?? ""),
+      Message: String(formData.get("message") ?? ""),
+    };
+
+    setStatus("submitting");
+    try {
+      const res = await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error("Request failed");
+      form.reset();
+      setIntent("Keynote");
+      setStatus("success");
+    } catch {
+      setStatus("error");
+    }
+  };
 
   return (
     <div className="bg-background text-charcoal">
@@ -51,7 +82,7 @@ function ContactPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}
+            onSubmit={handleSubmit}
             className="lg:col-span-8 bg-background border border-border rounded-3xl p-8 md:p-12"
           >
             <p className="text-xs uppercase tracking-[0.25em] text-charcoal/50 mb-4">I'm interested in</p>
@@ -79,6 +110,7 @@ function ContactPage() {
             <div className="mt-6">
               <label className="block text-xs uppercase tracking-[0.2em] text-charcoal/50 mb-2">Tell me about it</label>
               <textarea
+                name="message"
                 rows={5}
                 required
                 className="w-full bg-transparent border-b border-charcoal/20 focus:border-teal outline-none py-3 text-charcoal placeholder:text-charcoal/30 transition-colors"
@@ -88,10 +120,18 @@ function ContactPage() {
 
             <button
               type="submit"
-              className="mt-10 inline-flex items-center gap-2 px-8 py-4 rounded-full bg-charcoal text-primary-foreground hover:bg-teal transition-colors"
+              disabled={status === "submitting"}
+              className="mt-10 inline-flex items-center gap-2 px-8 py-4 rounded-full bg-charcoal text-primary-foreground hover:bg-teal transition-colors disabled:opacity-60"
             >
-              {submitted ? "Thank you — I'll be in touch" : "Send message"} <ArrowUpRight className="size-4" />
+              {status === "submitting" ? "Sending…" : "Send message"} <ArrowUpRight className="size-4" />
             </button>
+
+            {status === "success" && (
+              <p className="mt-6 text-sm text-teal">Thank you — your enquiry has been sent.</p>
+            )}
+            {status === "error" && (
+              <p className="mt-6 text-sm text-red-600">Something went wrong. Please try again.</p>
+            )}
           </motion.form>
 
           <div className="lg:col-span-4 space-y-8">
@@ -104,7 +144,7 @@ function ContactPage() {
                 </div>
                 <div className="flex items-start gap-3">
                   <MapPin className="size-5 text-emerald shrink-0 mt-0.5" />
-                  <span>Sydney, Australia · Available globally</span>
+                  <span>Melbourne, Australia · Available globally</span>
                 </div>
               </div>
             </div>
